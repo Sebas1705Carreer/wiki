@@ -34,6 +34,11 @@ Non-secrets (public, hardcoded in workflows/config on purpose): `VITE_CAREER_API
 
 4. **Integrations** (Doppler dashboard → project `carreer` → Integrations):
    - **GitHub Actions** → repo `Sebas1705Carreer/career-api-worker`, map `CF_API_TOKEN` and `CF_ACCOUNT_ID`. The workflow keeps reading `secrets.CF_API_TOKEN` — no CI changes needed; Doppler keeps the repo secrets in sync on every rotation.
+   - Manual fallback (no integration): pass values as env vars, **never through PowerShell text pipes** (PS 5.1 re-encodes and can prepend a BOM that breaks the token — wrangler fails with `U+FEFF` in the Authorization header):
+
+     ```bash
+     doppler run --project carreer --config prd -- powershell -NoProfile -Command "gh secret set CF_API_TOKEN -R Sebas1705Carreer/career-api-worker --body $env:CF_API_TOKEN; gh secret set CF_ACCOUNT_ID -R Sebas1705Carreer/career-api-worker --body $env:CF_ACCOUNT_ID"
+     ```
    - **Cloudflare Workers** → worker `career-api`, map `API_SECRET`. Alternatively push manually after each rotation: `doppler run --project carreer --config prd -- npx wrangler secret put API_SECRET` (paste the value when prompted).
 
 5. After rotating `API_SECRET`: log in again in career-editor-kmp (it stores its own copy — Android: EncryptedSharedPreferences; Desktop: Java Preferences under `dev/sebas1705/careereditor`).
