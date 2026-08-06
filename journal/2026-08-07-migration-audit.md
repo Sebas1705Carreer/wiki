@@ -17,16 +17,6 @@ All four career repos were migrated (transferred) from the personal account to t
 - **Dead project links in data:** `Sebas1705/my-portfolio` no longer exists → replaced with `Sebas1705Carreer/carreerV1`; the Omni-Impostor repo is private → github link nulled and name updated. Fixed in carreerV2 fallback JSON, carreerV1 data, and both worker seed files (`seed-kv.mjs` had missed the earlier rename that `seed-data.ts` got).
 - Worker README documented the **v2 API model** (bilingual `_en`/`_es` fields, no `/languages`, no Swagger) — rewritten to match the deployed v3.
 
-## Still pending (needs the API secret)
+## Live KV data
 
-Live KV still serves the two dead links. Either re-seed (`node seed-kv.mjs`) or patch:
-
-```bash
-curl -X PATCH https://career-api.sebas1705.workers.dev/projects/impostor \
-  -H "Authorization: Bearer <API_SECRET>" -H "Content-Type: application/json" \
-  -d '{"name": "Omni-Impostor", "github": null}'
-
-curl -X PATCH https://career-api.sebas1705.workers.dev/projects/portfolio \
-  -H "Authorization: Bearer <API_SECRET>" -H "Content-Type: application/json" \
-  -d '{"github": "https://github.com/Sebas1705Carreer/carreerV1"}'
-```
+The two dead links were also live in KV (`projects/impostor` → private repo, `projects/portfolio` → deleted `my-portfolio`). Patched via the API on 2026-08-07 and verified: `impostor` renamed to Omni-Impostor with no github link, `portfolio` pointing at `Sebas1705Carreer/carreerV1`.

@@ -55,7 +55,6 @@ The old personal-account repos redirect here; the previous portfolio repo `Sebas
 
 ## Open backlog
 
-- Re-seed / patch live KV so the `impostor` and `portfolio` projects stop serving dead GitHub links (fixed in the seeds, pending in KV — needs the API secret).
 - Add an `og-image.png` to carreerV2 and restore the removed Open Graph image metas.
 - CI for career-editor-kmp (build + lint on push), and eventually packaged releases.
 - Consider archiving carreerV1 on GitHub (it is legacy but still deployed) or retiring its Pages site.
