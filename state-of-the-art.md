@@ -52,6 +52,7 @@ The old personal-account repos redirect here; the previous portfolio repo `Sebas
 - **Branches:** app-style repos (`career-api-worker`, `career-editor-kmp`) work on `development`; site repos deploy from `main`.
 - **Data ids:** kebab-case, unique per entity; POST returns `409` on duplicates.
 - **Editing data:** prefer the editor app or `curl` PATCH calls (see the [API README](https://github.com/Sebas1705Carreer/career-api-worker#readme)); if you re-seed, keep `seed-kv.mjs` and `src/seed-data.ts` in sync.
+- **Secrets:** Doppler project `carreer` is the single source of truth — inventory and runbook in [operations/secrets.md](operations/secrets.md). Never commit values; `.env`/`.dev.vars` are gitignored.
 
 ## Open backlog
 

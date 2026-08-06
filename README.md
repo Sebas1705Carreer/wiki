@@ -4,3 +4,4 @@ Documentation hub for the **Sebas1705Carreer** organization: the personal career
 
 - [**state-of-the-art.md**](state-of-the-art.md) — the single up-to-date picture: repos, live services, architecture, data model and backlog.
 - [**journal/2026-08-07-migration-audit.md**](journal/2026-08-07-migration-audit.md) — post-migration audit: what was checked, what was broken, what was fixed.
+- [**operations/secrets.md**](operations/secrets.md) — secret inventory and the Doppler runbook (setup, rotation, daily use).
