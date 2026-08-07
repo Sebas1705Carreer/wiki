@@ -22,7 +22,7 @@ Folio · career-editor-kmp (Android/Desktop)   carreerV2 (React, live site)
 | Repo | Role | Default branch | Live |
 |---|---|---|---|
 | [career-api-worker](https://github.com/Sebas1705Carreer/career-api-worker) | REST API — Cloudflare Workers + KV, TypeScript. Single source of truth for all career data | `development` | [career-api.sebas1705.workers.dev](https://career-api.sebas1705.workers.dev) · [Swagger UI](https://career-api.sebas1705.workers.dev/docs) |
-| [carreerV2](https://github.com/Sebas1705Carreer/carreerV2) | **Active portfolio** — React 19, Vite, Tailwind v4, i18next, in-browser PDF CV generator (lazy chunk; the hero "Download CV" opens it). Reads the API at runtime with a wired offline fallback (`public/data/`) | `main` | [sebas1705carreer.github.io/carreerV2](https://sebas1705carreer.github.io/carreerV2/) |
+| [carreerV2](https://github.com/Sebas1705Carreer/carreerV2) | **Active portfolio** — React 19, Vite, Tailwind v4, i18next, in-browser PDF CV generator (lazy chunk; the hero "Download CV" opens it). Reads the API at runtime with a wired offline fallback (`public/data/`). Family identity: ink/teal `@theme` tokens, Space Grotesk + JetBrains Mono, Folio-style file headers, hash deep links (`#projects`), live hero stats, reduced-motion honoured | `main` | [sebas1705carreer.github.io/carreerV2](https://sebas1705carreer.github.io/carreerV2/) |
 | [carreerV1](https://github.com/Sebas1705Carreer/carreerV1) | **Legacy portfolio** — Astro 4 SSG, Clean Architecture, 10 languages, Playwright E2E. Reads the API at build time. Kept for reference, still deployed | `main` | [sebas1705carreer.github.io/carreerV1](https://sebas1705carreer.github.io/carreerV1/) |
 | [career-editor-kmp](https://github.com/Sebas1705Carreer/career-editor-kmp) | **Folio** — Kotlin Multiplatform + Compose editor (Android + Desktop JVM), Ktor client. Writes to the API with the Bearer token; login validates against a real write, API errors surface (expectSuccess), tokens sanitized of BOM. Own visual identity (mono-as-data, `~/portfolio/<slug>` file headers) | `development` | ships locally (no releases yet) |
 | [wiki](https://github.com/Sebas1705Carreer/wiki) | This documentation hub | `main` | — |
@@ -61,7 +61,6 @@ The old personal-account repos redirect here; the previous portfolio repo `Sebas
 
 - Write `long_desc` for the 10 projects added on 2026-08-07 (their modal falls back to the short desc) and decide whether any of them join the CV role lists in carreerV2's generator.
 - Regenerate the worker seeds from production (skills/education/certs currently lag live).
-- Add an `og-image.png` to carreerV2 and restore the removed Open Graph image metas.
 - CI for career-editor-kmp (build + lint on push), and eventually packaged releases.
 - Doppler dashboard syncs (GitHub Actions, Cloudflare Workers) — rotation currently propagates manually.
 - Consider archiving carreerV1 on GitHub (it is legacy but still deployed) or retiring its Pages site.
