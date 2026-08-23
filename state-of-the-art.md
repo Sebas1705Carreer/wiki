@@ -11,7 +11,7 @@ Folio · career-editor-kmp (Android/Desktop)   carreerV2 (React, live site)
         │  writes [Bearer auth]                 │  reads (runtime, offline fallback)
         ▼                                       ▼
               career-api-worker  (Cloudflare Workers + KV)
-              https://career-api.sebas1705.workers.dev
+              https://api.sebas1705.dev
                                                 ▲
                                                 │  reads (build time)
                                          carreerV1 (Astro, legacy)
@@ -21,7 +21,7 @@ Folio · career-editor-kmp (Android/Desktop)   carreerV2 (React, live site)
 
 | Repo | Role | Default branch | Live |
 |---|---|---|---|
-| [career-api-worker](https://github.com/Sebas1705Carreer/career-api-worker) | REST API — Cloudflare Workers + KV, TypeScript. Single source of truth for all career data | `development` | [career-api.sebas1705.workers.dev](https://career-api.sebas1705.workers.dev) · [Swagger UI](https://career-api.sebas1705.workers.dev/docs) |
+| [career-api-worker](https://github.com/Sebas1705Carreer/career-api-worker) | REST API — Cloudflare Workers + KV, TypeScript. Single source of truth for all career data | `development` | [api.sebas1705.dev](https://api.sebas1705.dev) · [Swagger UI](https://api.sebas1705.dev/docs) |
 | [carreerV2](https://github.com/Sebas1705Carreer/carreerV2) | **Active portfolio** — React 19, Vite, Tailwind v4, i18next, in-browser PDF CV generator (lazy chunk; the hero "Download CV" opens it). Reads the API at runtime with a wired offline fallback (`public/data/`). Family identity: ink/teal `@theme` tokens, Space Grotesk + JetBrains Mono, Folio-style file headers, hash deep links (`#projects`), live hero stats, reduced-motion honoured. CV generator: 4 curated role profiles × 2 variants — visual (HR) and ATS/AI (single column, standard headings, YYYY-MM dates, plain URLs) | `main` | [sebas1705carreer.github.io/carreerV2](https://sebas1705carreer.github.io/carreerV2/) |
 | [carreerV1](https://github.com/Sebas1705Carreer/carreerV1) | **Legacy portfolio** — Astro 4 SSG, Clean Architecture, 10 languages, Playwright E2E. Reads the API at build time. Kept for reference, still deployed | `main` | [sebas1705carreer.github.io/carreerV1](https://sebas1705carreer.github.io/carreerV1/) |
 | [career-editor-kmp](https://github.com/Sebas1705Carreer/career-editor-kmp) | **Folio** — Kotlin Multiplatform + Compose editor (Android + Desktop JVM), Ktor client. Writes to the API with the Bearer token; login validates against a real write, API errors surface (expectSuccess), tokens sanitized of BOM. Own visual identity (mono-as-data, `~/portfolio/<slug>` file headers) | `development` | ships locally (no releases yet) |
@@ -35,7 +35,7 @@ The old personal-account repos redirect here; the previous portfolio repo `Sebas
 - **Entities:** `languages` and `personal` (singular · GET/PUT/PATCH), plus `jobs`, `projects`, `skills`, `education`, `certifications`, `soft-skills` (arrays with `id` · full CRUD).
 - **i18n model:** every localizable field is a `LocalizedString` — `{ [langCode]: value }`. `GET /languages` drives consumers' language switchers; adding a language = extending the maps + updating `/languages`. Currently `en` (default) and `es`.
 - **Auth:** reads are public; writes require `Authorization: Bearer <API_SECRET>` (a Cloudflare secret).
-- **Docs:** OpenAPI 3.0 at [`/openapi.json`](https://career-api.sebas1705.workers.dev/openapi.json), Swagger UI at [`/docs`](https://career-api.sebas1705.workers.dev/docs).
+- **Docs:** OpenAPI 3.0 at [`/openapi.json`](https://api.sebas1705.dev/openapi.json), Swagger UI at [`/docs`](https://api.sebas1705.dev/docs).
 - **Storage:** Cloudflare KV (`CAREER_KV`). Seeding via `node seed-kv.mjs` (source of truth for re-seeds; `src/seed-data.ts` mirrors it for the worker bundle).
 - **CORS:** `*` by default, configurable via `ALLOWED_ORIGIN`.
 - **Content (2026-08-07):** 20 projects (Solusoft work incl. ApiMovil/Wemob/Transportes Chinchón, GitHub flagships incl. Templetry and this ecosystem, academic), 3 jobs, 137 skills in the `languages`/`frameworks`/… taxonomy (incl. Go, Wails, Compose MP, DevSecOps and HPC stacks mined from GitHub), 10 certifications.
