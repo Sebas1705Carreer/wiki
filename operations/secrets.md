@@ -1,6 +1,6 @@
 # Secrets — inventory and Doppler runbook
 
-**Doppler is the single source of truth** for every secret in the career ecosystem (project `carreer`). Values never live in git, wikis or chats — only names and where they are consumed.
+**Doppler is the single source of truth** for every secret in the career ecosystem: project `carreer` (the API and its deploy) and project `folio` (the Folio Android app build and release). Values never live in git, wikis or chats — only names and where they are consumed.
 
 ## Inventory
 
@@ -9,6 +9,23 @@
 | `API_SECRET` | career-api-worker (Bearer auth for writes) · career-editor-kmp (login) | Doppler → Cloudflare Workers sync (or `wrangler secret put`) |
 | `CF_API_TOKEN` | GitHub Actions deploy of career-api-worker | Doppler → GitHub Actions sync (repo secret) |
 | `CF_ACCOUNT_ID` | GitHub Actions deploy of career-api-worker | Doppler → GitHub Actions sync (repo secret) |
+
+### Folio (Doppler project `folio`)
+
+Names only; values live in Doppler (config `prd` for releases, `dev` for local builds). `API_TOKEN` is the value of `API_SECRET` above, compiled into the APK.
+
+| Secret | Consumed by | Delivered via |
+|---|---|---|
+| `API_TOKEN` | the Gradle build of career-editor-kmp (compiled into the APK as `BuildConfig.API_TOKEN`) | `doppler run` (`folio/dev` locally, `folio/prd` in CI) |
+| `SIGNING_KEYSTORE_BASE64` | signing the release APK | `doppler run` in the release workflow |
+| `SIGNING_STORE_PASSWORD` | signing the release APK | `doppler run` in the release workflow |
+| `SIGNING_KEY_ALIAS` | signing the release APK | `doppler run` in the release workflow |
+| `SIGNING_KEY_PASSWORD` | signing the release APK | `doppler run` in the release workflow |
+| `FIREBASE_APP_ID` | Firebase App Distribution upload | `doppler run` in the release workflow |
+| `FIREBASE_SERVICE_ACCOUNT_JSON` | Firebase App Distribution upload (service account with the *Firebase App Distribution Admin* role) | `doppler run` in the release workflow |
+| `DOPPLER_TOKEN` | the only GitHub Actions secret of career-editor-kmp: a read-only Doppler service token for `folio/prd` | repo secret, set by hand |
+
+Optional non-secret: the repository variable `FIREBASE_TESTER_GROUP` (defaults to `testers`). The release workflow fails naming the first missing Doppler secret. The APK carries the API token, so it is distributed only through Firebase App Distribution and never as a GitHub release asset; rotating `API_SECRET` means updating `API_TOKEN` in `folio/dev` and `folio/prd` and tagging a new version. See the career-editor-kmp README ("The API token", "Publishing a release").
 
 Non-secrets (public, hardcoded in workflows/config on purpose): `VITE_CAREER_API_URL`, `VITE_BASE_PATH` (carreerV2), `ALLOWED_ORIGIN` (worker `wrangler.toml` var).
 
@@ -41,7 +58,7 @@ Non-secrets (public, hardcoded in workflows/config on purpose): `VITE_CAREER_API
      ```
    - **Cloudflare Workers** → worker `career-api`, map `API_SECRET`. Alternatively push manually after each rotation: `doppler run --project carreer --config prd -- npx wrangler secret put API_SECRET` (paste the value when prompted).
 
-5. After rotating `API_SECRET`: log in again in career-editor-kmp (it stores its own copy — Android: EncryptedSharedPreferences; Desktop: Java Preferences under `dev/sebas1705/careereditor`).
+5. After rotating `API_SECRET`: update `API_TOKEN` in the Doppler project `folio` and ship a new Folio build; an installed app keeps its own stored copy (Android: EncryptedSharedPreferences) until the token is entered again in its settings.
 
 ## Daily use
 
